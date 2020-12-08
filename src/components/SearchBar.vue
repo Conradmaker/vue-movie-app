@@ -26,7 +26,7 @@ export default {
     computed:{
         title:{
             get(){
-                return this.$store.movie.title
+                return this.$store.state.movie.title
             },
             set(title){
                 this.$store.commit('movie/updateState',{

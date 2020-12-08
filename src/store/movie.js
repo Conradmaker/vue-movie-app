@@ -24,8 +24,7 @@ export default {
           `http://www.omdbapi.com/?apikey=f6842dd7&s=${state.title}`
         );
         console.log(response.data);
-        state.movie = response.data.Search;
-        commit("updateState", {loading: false});
+        commit("updateState", {movies: response.data.Search, loading: false});
       } catch (e) {
         console.error(e);
       }

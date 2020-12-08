@@ -20,26 +20,26 @@
     </div>
 </template>
 <script>
-import axios from 'axios'
+import {mapActions} from 'vuex'
 
 export default {
-    data(){
-        return{
-            title:'',
-            loading:false,
+    computed:{
+        title:{
+            get(){
+                return this.$store.movie.title
+            },
+            set(title){
+                this.$store.commit('movie/updateState',{
+                    title
+                })
+            }
+        },
+        loading(){
+            return this.$store.state.movie.loading
         }
     },
     methods:{
-        searchMovies(){
-            console.log('search')
-            this.loading = true
-            axios.get(`http://www.omdbapi.com/?apikey=f6842dd7&s=${this.title}`)
-                .then((response)=>{
-                    this.loading = false
-                    console.log(response.data)
-                    })
-                .catch((e)=>console.error(e))
-        }
+        ...mapActions('movie',['searchMovies']),
     }
 }
 </script>

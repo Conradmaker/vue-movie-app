@@ -23,7 +23,7 @@ export default {
       // eslint-disable-next-line no-async-promise-executor
       return new Promise(async (resolve) => {
         const response = await axios.get(
-          `http://www.omdbapi.com/?apikey=f6842dd7&s=${state.title}&page=${pageNum}`
+          `https://www.omdbapi.com/?apikey=f6842dd7&s=${state.title}&page=${pageNum}`
         );
         commit("pushIntoMovies", response.data.Search);
         resolve(response.data);

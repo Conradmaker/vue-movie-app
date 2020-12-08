@@ -15,10 +15,13 @@
         md="6"
         sm="12">
         <v-card>
-            <v-img 
-                :src="movie.Poster"
-                :alt="movie.Title"
-                height='300px'>
+            <v-img
+            :src="posterSrc(movie.Poster)"
+            :alt="movie.Title"
+            :height="posterHeight(movie.Poster)">
+                <template v-slot:placeholder>
+                    <div style="background: lightgray; height: 100%;"></div>
+                </template>
             </v-img>
             <v-card-title>
                 {{movie.Title}}
@@ -37,6 +40,14 @@ export default {
         movies(){
             return this.$store.state.movie.movies
         }
+    },
+    methods: {
+    posterSrc (poster) {
+      return poster === 'N/A' ? '' : poster
+    },
+    posterHeight (poster) {
+      return poster === 'N/A' ? 100 : 300
     }
+  }
 }
 </script>

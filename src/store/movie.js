@@ -14,17 +14,35 @@ export default {
         state[key] = payload[key];
       });
     },
+    pushIntoMovies(state, movies) {
+      state.movies.push(...movies);
+    },
   },
   actions: {
-    async searchMovies({state, commit}) {
+    fetchMovies({state, commit}, pageNum) {
+      // eslint-disable-next-line no-async-promise-executor
+      return new Promise(async (resolve) => {
+        const response = await axios.get(
+          `http://www.omdbapi.com/?apikey=f6842dd7&s=${state.title}&page=${pageNum}`
+        );
+        commit("pushIntoMovies", response.data.Search);
+        resolve(response.data);
+      });
+    },
+    async searchMovies({commit, dispatch}) {
       try {
         // state.loading = true;
-        commit("updateState", {loading: true});
-        const response = await axios.get(
-          `http://www.omdbapi.com/?apikey=f6842dd7&s=${state.title}`
-        );
-        console.log(response.data);
-        commit("updateState", {movies: response.data.Search, loading: false});
+        commit("updateState", {loading: true, movies: []});
+        const {totalResults} = await dispatch("fetchMovies", 1);
+        const pageLength = Math.ceil(totalResults / 10);
+
+        if (pageLength > 1) {
+          for (let i = 2; i <= pageLength; i++) {
+            if (i > 4) break;
+            await dispatch("fetchMovies", i);
+          }
+        }
+        commit("updateState", {loading: false});
       } catch (e) {
         console.error(e);
       }

@@ -1,8 +1,14 @@
 <template>
-    <v-row>
+<!-- 반복되는 아이템 부모요소에 아래 두개속성 -->
+    <v-row
+     v-masonry
+     item-selector=".item">
+     <!-- 반복되는 자식요소에 클래스와 타일 -->
         <v-col 
         v-for='movie in movies' 
         :key="movie.imdbID"
+        v-masonry-tile
+        class="item"
         cols="12"
         xl="2"
         lg="3"
@@ -11,7 +17,8 @@
         <v-card>
             <v-img 
                 :src="movie.Poster"
-                :alt="movie.Title">
+                :alt="movie.Title"
+                height='300px'>
             </v-img>
             <v-card-title>
                 {{movie.Title}}

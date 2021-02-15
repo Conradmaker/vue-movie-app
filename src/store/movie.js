@@ -5,6 +5,7 @@ export default {
   state: () => ({
     title: '',
     loading: false,
+    error: null,
     movies: [],
   }),
   getters: {},
@@ -21,18 +22,22 @@ export default {
   actions: {
     fetchMovies({ state, commit }, pageNum) {
       // eslint-disable-next-line no-async-promise-executor
-      return new Promise(async resolve => {
-        const response = await axios.get(
-          `https://www.omdbapi.com/?apikey=f6842dd7&s=${state.title}&page=${pageNum}`
-        );
-        commit('pushIntoMovies', response.data.Search);
-        resolve(response.data);
+      return new Promise(async (resolve, reject) => {
+        try {
+          const response = await axios.get(
+            `https://www.omdbapi.com/?apikey=f6842dd7&s=${state.title}&page=${pageNum}`
+          );
+          commit('pushIntoMovies', response.data.Search);
+          resolve(response.data);
+        } catch (e) {
+          reject(e);
+        }
       });
     },
-    async searchMovies({ commit, dispatch }) {
+    async searchMovies({ state, commit, dispatch }) {
+      commit('updateState', { loading: true, movies: [], error: null });
       try {
         // state.loading = true;
-        commit('updateState', { loading: true, movies: [] });
         const { totalResults } = await dispatch('fetchMovies', 1);
         const pageLength = Math.ceil(totalResults / 10);
 
@@ -42,9 +47,11 @@ export default {
             await dispatch('fetchMovies', i);
           }
         }
-        commit('updateState', { loading: false });
       } catch (e) {
         console.error(e);
+        commit('updateState', { error: e });
+      } finally {
+        commit('updateState', { loading: false });
       }
     },
   },

@@ -7,6 +7,7 @@ module.exports = {
   },
   env: {
     browser: true,
+    jest:true,
     node: true,
   },
   extends: ['plugin:vue/essential'],

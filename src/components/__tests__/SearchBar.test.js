@@ -28,6 +28,7 @@ describe('SearchBar Component', () => {
     wrapper.vm.$store.commit('movie/updateState', {
       loading: true,
     });
+    //실제 화면에 렌더링되는 시간을 보장하기 위해
     await wrapper.vm.$nextTick();
     expect(wrapper.find('.v-progress-circular').exists()).toBe(true);
   });

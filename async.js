@@ -78,25 +78,25 @@
 //------Promise------
 
 function a() {
-  return new Promise((res) => {
+  return new Promise(res => {
     setTimeout(() => {
-      console.log("a");
+      console.log('a');
       res();
     }, 1000);
   });
 }
 function b() {
-  return new Promise((res) => {
+  return new Promise(res => {
     setTimeout(() => {
-      console.log("b");
+      console.log('b');
       res();
     }, 1000);
   });
 }
 function c() {
-  return new Promise((res) => {
+  return new Promise(res => {
     setTimeout(() => {
-      console.log("c");
+      console.log('c');
       res();
     }, 1000);
   });
@@ -121,21 +121,21 @@ function a1() {
     }
     setTimeout(() => {
       console.log(a);
-      resolve("done");
+      resolve('done');
     });
   });
 }
 
 a1()
-  .then((res) => {
+  .then(res => {
     console.log(res); //resolve()안에 들어온 매게변수
   })
-  .catch((error) => {
+  .catch(error => {
     console.log(error);
     alert(error);
   })
   .finally(() => {
-    console.log("위 로직이 완료되면 무조건적으로 이부분 실행");
+    console.log('위 로직이 완료되면 무조건적으로 이부분 실행');
   });
 
 async function asyncFunc() {
@@ -145,7 +145,7 @@ async function asyncFunc() {
   } catch (e) {
     console.error(e);
   } finally {
-    console.log("done!");
+    console.log('done!');
   }
 }
 asyncFunc();

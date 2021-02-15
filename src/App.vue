@@ -3,19 +3,20 @@
     <!-- vuetify를 사용하기 위해는 v-app아래에 그려줘야 한다 -->
     <v-container>
       <!-- 검색바 -->
-      <search-bar/>
+      <search-bar />
       <!-- 영화목록 -->
-      <movie-list/>
+      <movie-list />
     </v-container>
   </v-app>
 </template>
 
 <script>
-import SearchBar from '@/components/SearchBar'
-import MovieList from '@/components/MovieList'
+import SearchBar from '@/components/SearchBar';
+import MovieList from '@/components/MovieList';
 export default {
-  components:{
-    SearchBar,MovieList
-  }
+  components: {
+    SearchBar,
+    MovieList,
+  },
 };
 </script>

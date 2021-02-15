@@ -1,16 +1,16 @@
-import axios from "axios";
+import axios from 'axios';
 
 export default {
   namespaced: true,
   state: () => ({
-    title: "",
+    title: '',
     loading: false,
     movies: [],
   }),
   getters: {},
   mutations: {
     updateState(state, payload) {
-      Object.keys(payload).forEach((key) => {
+      Object.keys(payload).forEach(key => {
         state[key] = payload[key];
       });
     },
@@ -19,30 +19,30 @@ export default {
     },
   },
   actions: {
-    fetchMovies({state, commit}, pageNum) {
+    fetchMovies({ state, commit }, pageNum) {
       // eslint-disable-next-line no-async-promise-executor
-      return new Promise(async (resolve) => {
+      return new Promise(async resolve => {
         const response = await axios.get(
           `https://www.omdbapi.com/?apikey=f6842dd7&s=${state.title}&page=${pageNum}`
         );
-        commit("pushIntoMovies", response.data.Search);
+        commit('pushIntoMovies', response.data.Search);
         resolve(response.data);
       });
     },
-    async searchMovies({commit, dispatch}) {
+    async searchMovies({ commit, dispatch }) {
       try {
         // state.loading = true;
-        commit("updateState", {loading: true, movies: []});
-        const {totalResults} = await dispatch("fetchMovies", 1);
+        commit('updateState', { loading: true, movies: [] });
+        const { totalResults } = await dispatch('fetchMovies', 1);
         const pageLength = Math.ceil(totalResults / 10);
 
         if (pageLength > 1) {
           for (let i = 2; i <= pageLength; i++) {
             if (i > 4) break;
-            await dispatch("fetchMovies", i);
+            await dispatch('fetchMovies', i);
           }
         }
-        commit("updateState", {loading: false});
+        commit('updateState', { loading: false });
       } catch (e) {
         console.error(e);
       }
